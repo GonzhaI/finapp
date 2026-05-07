@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "finapp",
+    "slug": "finapp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "scheme": "finapp",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "dev.anomalyco.finapp"
+    },
+    "plugins": [
+      "expo-router"
+    ]
+  }
+}
+    },
+    "owner": "gonzhaio"
+  }
+}

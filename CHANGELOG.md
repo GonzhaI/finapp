@@ -24,6 +24,12 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y e
 - (data) Tipos de cuenta `checking` y `digital_wallet` (para Tenpo, MercadoPago, etc.) añadidos al modelo.
 - (data) Tabla `exchange_rates` para soporte multi-moneda con tasas manuales.
 - (i18n) Confirmado soporte bilingüe (es + en) desde v1.
+- (bootstrap) Proyecto Expo inicializado (SDK 54, TypeScript estricto).
+- (bootstrap) Dependencias core instaladas (expo-router, expo-sqlite, drizzle-orm, zustand, @tanstack/react-query, react-hook-form, zod, reanimated, gesture-handler, expo-blur, expo-haptics, expo-local-authentication).
+- (bootstrap) Configuración de ESLint + Prettier.
+- (bootstrap) Configuración de Expo Router con tabs (Inicio, Movimientos, Analítica, Ajustes).
+- (bootstrap) Configuración de alias `@/*` → `src/*` en tsconfig.
+- (bootstrap) Configuración base de EAS (`eas.json` con perfiles dev, preview, production).
 
 ### Changed
 - (plan) Recurrentes promovidos de Fase 6 a Fase 4 (incluidos en v1).
@@ -32,7 +38,13 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y e
 - (plan) Presupuestos pospuestos a v2 (v0.5 del roadmap). Tabla `budgets` no entra en la migration inicial.
 
 ### Fixed
-- _Nada aún._
+- (bootstrap) `react-native-screens` ausente tras resolución de dependencias — reinstalado v4.16.0.
+- (bootstrap) Assets placeholder (`icon.png`, `splash-icon.png`, etc.) creados para resolver warning de resolución.
+- (bootstrap) `babel.config.js` creado con plugin de `react-native-reanimated`.
+- (bootstrap) `babel-preset-expo` no instalado — agregado.
+- (bootstrap) `react-native-worklets` faltante como peer dep de reanimated v4 — instalado v0.8.3.
+- (bootstrap) Versiones de paquetes Expo alineadas a SDK 54 con `expo install --fix`.
+- (bootstrap) App verificada en Expo Go desde iPhone — 4 tabs funcionales.
 
 ---
 

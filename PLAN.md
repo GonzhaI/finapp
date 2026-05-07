@@ -2,7 +2,7 @@
 
 Hoja de ruta accionable del proyecto. Cada bloque es una **fase** con sus tareas. Marca con `[x]` lo completado, deja `[ ]` lo pendiente. Mantén el documento corto: las decisiones de fondo van en `docs/adr/`.
 
-> **Estado actual:** Fase 0 (planificación y documentación) ✔️ completada. Próximo paso: Fase 1.
+> **Estado actual:** Fase 1 (bootstrap) completa. Aplicación corriendo en Expo Go con 4 tabs placeholder. Próximo paso: Fase 2 (sistema de diseño + i18n).
 
 ---
 
@@ -17,13 +17,13 @@ Hoja de ruta accionable del proyecto. Cada bloque es una **fase** con sus tareas
 
 ## Fase 1 — Bootstrap del proyecto Expo ⚙️
 
-- [ ] Inicializar proyecto: `npx create-expo-app@latest . --template blank-typescript`.
-- [ ] Configurar `tsconfig.json` estricto + alias `@/*` → `src/*`.
-- [ ] Instalar dependencias core: `expo-router`, `expo-sqlite`, `drizzle-orm`, `zustand`, `@tanstack/react-query`, `react-hook-form`, `zod`, `expo-blur`, `react-native-reanimated`, `react-native-gesture-handler`.
-- [ ] Configurar ESLint + Prettier (config en `.eslintrc.cjs` y `.prettierrc`).
-- [ ] Configurar Expo Router (entry point + layout raíz).
-- [ ] Crear cuenta y configurar **EAS** (`eas init`, `eas build:configure`).
-- [ ] Probar build en Expo Go desde iPhone físico (escaneo QR).
+- [x] Inicializar proyecto: `npx create-expo-app@latest . --template blank-typescript`.
+- [x] Configurar `tsconfig.json` estricto + alias `@/*` → `src/*`.
+- [x] Instalar dependencias core: `expo-router`, `expo-sqlite`, `drizzle-orm`, `zustand`, `@tanstack/react-query`, `react-hook-form`, `zod`, `expo-blur`, `react-native-reanimated`, `react-native-gesture-handler`.
+- [x] Configurar ESLint + Prettier (config en `eslint.config.mjs` y `.prettierrc`).
+- [x] Configurar Expo Router (entry point + layout raíz).
+- [x] Configurar EAS (`eas.json` con perfiles dev, preview, production). `easet login` + `easet init` pendiente por ser interactivo.
+- [x] Probar build en Expo Go desde iPhone físico (escaneo QR).
 - [ ] Crear primer **EAS development build** instalable en iPhone.
 
 ## Fase 2 — Sistema de diseño + i18n 🎨
