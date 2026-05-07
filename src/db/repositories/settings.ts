@@ -19,7 +19,9 @@ export const settingsRepo = {
   }) {
     const existing = db.select().from(settings).where(eq(settings.id, 1)).get();
     if (existing) {
-      db.update(settings).set(data).where(eq(settings.id, 1)).run();
+      if (Object.keys(data).length > 0) {
+        db.update(settings).set(data).where(eq(settings.id, 1)).run();
+      }
     } else {
       db.insert(settings)
         .values({
