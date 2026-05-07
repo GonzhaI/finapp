@@ -41,17 +41,18 @@ Hoja de ruta accionable del proyecto. Cada bloque es una **fase** con sus tareas
 
 ## Fase 3 — Capa de datos 🗄️
 
-- [ ] Definir esquema en Drizzle (`src/db/schema.ts`) según `docs/DATA_MODEL.md`.
-- [ ] Configurar conexión `expo-sqlite` + Drizzle.
-- [ ] Sistema de migraciones (`src/db/migrations/`).
-- [ ] Tipos de cuenta soportados: `cash`, `debit`, `checking`, `digital_wallet`, `credit`, `savings`, `investment`, `other`.
-- [ ] Tabla `currencies` precargada (CLP, USD, EUR, ARS, BRL, GBP, MXN... ampliable).
-- [ ] Tabla `exchange_rates` para conversión manual (par moneda + tasa + fecha).
-- [ ] Tabla `recurring_rules` (incluida en v1, no postergada).
-- [ ] Seed con datos de ejemplo (toggle dev-only).
-- [ ] Repositorios (`src/db/repositories/`): `accounts`, `categories`, `transactions`, `recurringRules`, `exchangeRates`.
+- [x] Definir esquema en Drizzle (`src/db/schema.ts`) según `docs/DATA_MODEL.md`.
+- [x] Configurar conexión `expo-sqlite` + Drizzle.
+- [x] Sistema de migraciones (`src/db/migrations/`).
+- [x] Tipos de cuenta soportados: `cash`, `debit`, `checking`, `digital_wallet`, `credit`, `savings`, `investment`, `other`.
+- [x] Tabla `currencies` precargada (CLP, USD, EUR, ARS, BRL, GBP, MXN, PEN, UYU).
+- [x] Tabla `exchange_rates` para conversión manual (par moneda + tasa + fecha).
+- [x] Tabla `recurring_rules` (incluida en v1, no postergada).
+- [x] Seed con datos de ejemplo (categorías, monedas, cuentas default).
+- [x] Repositorios (`src/db/repositories/`): `accounts`, `categories`, `transactions`, `recurringRules`, `exchangeRates`, `settings`.
 - ❌ Sin tabla `budgets` en v1 (pospuesto a v2).
-- [ ] Hooks de query con TanStack Query (`src/hooks/queries/`).
+- [x] Hooks de query con TanStack Query (`src/hooks/queries/`): mutations y queries para cada entidad.
+- [x] `QueryClientProvider` integrado en layout raíz.
 
 ## Fase 4 — Pantallas principales 📱
 
