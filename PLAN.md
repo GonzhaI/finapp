@@ -2,7 +2,7 @@
 
 Hoja de ruta accionable del proyecto. Cada bloque es una **fase** con sus tareas. Marca con `[x]` lo completado, deja `[ ]` lo pendiente. Mantén el documento corto: las decisiones de fondo van en `docs/adr/`.
 
-> **Estado actual:** Fase 1 (bootstrap) completa. Aplicación corriendo en Expo Go con 4 tabs placeholder. Próximo paso: Fase 2 (sistema de diseño + i18n).
+> **Estado actual:** Fase 2 (sistema de diseño + i18n) avanzada. Componentes base, tema claro/oscuro, i18n, y utilidades listos. Próximo paso: Fase 3 (capa de datos).
 
 ---
 
@@ -28,14 +28,15 @@ Hoja de ruta accionable del proyecto. Cada bloque es una **fase** con sus tareas
 
 ## Fase 2 — Sistema de diseño + i18n 🎨
 
-- [ ] Definir tokens de tema (`src/theme/tokens.ts`): colores, espaciado, radios, tipografía.
-- [ ] Implementar tema claro y oscuro con detección automática.
-- [ ] Componentes base (`src/components/ui/`): `Text`, `Button`, `Card`, `GlassCard`, `Input`, `Sheet`, `TabBar`.
-- [ ] Implementar `GlassCard` con `expo-blur` + bordes sutiles (aproximación a Liquid Glass).
-- [ ] Definir paleta de iconos (SF Symbols vía `sf-symbols-react-native` o fallback a Lucide).
-- [ ] Cargar fuente principal (SF Pro no se puede redistribuir; usar **Inter** como sustituto).
-- [ ] **i18n bilingüe**: estructura `src/i18n/{es,en}.json` + hook `useT(key)` con detección de locale del sistema.
-- [ ] Helpers de **formato multi-moneda** (`src/utils/currency.ts`) usando `Intl.NumberFormat`.
+- [x] Definir tokens de tema (`src/theme/tokens.ts`): colores, espaciado, radios, tipografía.
+- [x] Implementar tema claro y oscuro con detección automática.
+- [x] Componentes base (`src/components/ui/`): `Text`, `Button`, `Card`, `GlassCard`, `Input`, `Pill`, `EmptyState`, `Skeleton`.
+- [x] Implementar `GlassCard` con `expo-blur` + bordes sutiles (aproximación a Liquid Glass).
+- [ ] Definir paleta de iconos (SF Symbols vía `expo-symbols` o fallback a Lucide).
+- [x] Cargar fuente principal (Inter como sustituto de SF Pro).
+- [x] **i18n bilingüe**: estructura `src/i18n/{es,en}.json` + hook `useT(key)` con detección de locale del sistema.
+- [x] Helpers de **formato multi-moneda** (`src/utils/currency.ts`) usando `Intl.NumberFormat`.
+- [x] Tipos compartidos en `src/types/index.ts` (Account, Transaction, Category, etc.).
 - [ ] Storybook ligero o pantalla `/dev/playground` para previsualizar componentes.
 
 ## Fase 3 — Capa de datos 🗄️

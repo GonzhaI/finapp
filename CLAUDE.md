@@ -55,6 +55,6 @@ App móvil **iOS** de **gestión de finanzas personales**, uso individual del au
 
 ## Estado actual (actualizar cada cambio importante)
 
-- **Fase:** 1 — bootstrap completo y probado en Expo Go. Listo para Fase 2 (diseño + i18n).
+- **Fase:** 2 — sistema de diseño + i18n implementado. Componentes base, temas, i18n y utilidades listos. Próximo: Fase 3 (capa de datos).
 - **Decisiones de producto resueltas (2026-05-06):** multi-moneda ✔, cuentas (cash/debit/checking/digital_wallet/credit) ✔, recurrentes en v1 ✔, bilingüe es+en ✔, Face ID nice-to-have, backup manual JSON ✔, presupuestos pospuestos a v2 ✔.
 - **Bloqueos:** ninguno. Listo para Fase 1 (`npx create-expo-app` + setup base).

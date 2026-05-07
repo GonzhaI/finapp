@@ -30,6 +30,15 @@ El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y e
 - (bootstrap) Configuración de Expo Router con tabs (Inicio, Movimientos, Analítica, Ajustes).
 - (bootstrap) Configuración de alias `@/*` → `src/*` en tsconfig.
 - (bootstrap) Configuración base de EAS (`eas.json` con perfiles dev, preview, production).
+- (design) Sistema de tokens: colores, espaciado, radios, tipografía, sombras, duraciones.
+- (design) Temas claro y oscuro con `ThemeProvider` + detección automática.
+- (design) Fuente Inter cargada con `expo-font` + `@expo-google-fonts/inter`.
+- (ui) Componentes base: `Text`, `Button`, `Card`, `GlassCard`, `Input`, `Pill`, `EmptyState`, `Skeleton`.
+- (ui) `GlassCard` con `expo-blur` y bordes luminosos estilo Liquid Glass.
+- (i18n) Sistema bilingüe es/en con JSON + hook `useT()` tipado.
+- (utils) Helpers de formato de moneda multi-divisa con `Intl.NumberFormat`.
+- (utils) Helpers de formato de fecha (relativo, corto, nombres de mes).
+- (types) Tipos compartidos centralizados (`Account`, `Transaction`, `Category`, etc.).
 
 ### Changed
 - (plan) Recurrentes promovidos de Fase 6 a Fase 4 (incluidos en v1).

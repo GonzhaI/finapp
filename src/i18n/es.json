@@ -1,0 +1,49 @@
+{
+  "common": {
+    "ok": "OK",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "back": "Volver",
+    "loading": "Cargando...",
+    "error": "Ocurrió un error",
+    "retry": "Reintentar"
+  },
+  "tabs": {
+    "home": "Inicio",
+    "movements": "Movimientos",
+    "analytics": "Analítica",
+    "settings": "Ajustes"
+  },
+  "home": {
+    "title": "finapp",
+    "subtitle": "Dashboard — próximamente",
+    "totalBalance": "Saldo total",
+    "income": "Ingresos",
+    "expense": "Gastos",
+    "noData": "Sin datos aún"
+  },
+  "movements": {
+    "title": "Movimientos",
+    "subtitle": "Próximamente",
+    "empty": "Sin movimientos aún",
+    "emptyDescription": "Toca + para registrar tu primera transacción"
+  },
+  "analytics": {
+    "title": "Analítica",
+    "subtitle": "Próximamente",
+    "empty": "Sin datos suficientes",
+    "emptyDescription": "Registra algunas transacciones para ver tus analíticas aquí"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "theme": "Tema",
+    "themeSystem": "Sistema",
+    "themeLight": "Claro",
+    "themeDark": "Oscuro",
+    "language": "Idioma",
+    "currency": "Moneda principal",
+    "about": "Acerca de"
+  }
+}

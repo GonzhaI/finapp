@@ -1,29 +1,18 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTheme } from '@/theme/ThemeProvider';
+import { useT } from '@/i18n/useT';
+import { EmptyState } from '@/components/ui/EmptyState';
 
 export default function SettingsScreen() {
+  const { theme } = useTheme();
+  const t = useT();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Ajustes</Text>
-      <Text style={styles.subtitle}>Próximamente</Text>
-    </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }} edges={['top']}>
+      <EmptyState
+        title={t('settings.title')}
+        description="Próximamente"
+      />
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 24,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: '600',
-  },
-  subtitle: {
-    fontSize: 15,
-    color: '#888',
-    marginTop: 8,
-  },
-});

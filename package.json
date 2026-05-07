@@ -12,6 +12,7 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@expo-google-fonts/inter": "^0.4.2",
     "@tanstack/react-query": "^5.100.9",
     "babel-preset-expo": "~54.0.10",
     "drizzle-orm": "^0.45.2",
@@ -19,6 +20,7 @@
     "expo-blur": "~15.0.8",
     "expo-constants": "~18.0.13",
     "expo-file-system": "~19.0.22",
+    "expo-font": "~14.0.11",
     "expo-haptics": "~15.0.8",
     "expo-linking": "~8.0.12",
     "expo-local-authentication": "~17.0.8",
