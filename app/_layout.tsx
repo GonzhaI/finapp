@@ -48,6 +48,9 @@ function AppContent() {
         }}
       >
         <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="new-transaction" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="accounts" options={{ headerShown: false }} />
+        <Stack.Screen name="categories" options={{ headerShown: false }} />
       </Stack>
     </>
   );

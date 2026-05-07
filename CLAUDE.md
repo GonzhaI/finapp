@@ -55,6 +55,6 @@ App móvil **iOS** de **gestión de finanzas personales**, uso individual del au
 
 ## Estado actual (actualizar cada cambio importante)
 
-- **Fase:** 2 completa. Fase 3 — capa de datos implementada (esquema Drizzle, migraciones, repositorios, hooks TanStack Query). Próximo: Fase 4 (pantallas principales).
+- **Fase:** 3 completa. Fase 4 — pantallas principales implementadas (dashboard, movimientos, nuevo movimiento, cuentas, categorías, ajustes). Próximo: Analíticas y recurrentes (Fase 4 pendiente) + Fase 5 (personalización).
 - **Decisiones de producto resueltas (2026-05-06):** multi-moneda ✔, cuentas (cash/debit/checking/digital_wallet/credit) ✔, recurrentes en v1 ✔, bilingüe es+en ✔, Face ID nice-to-have, backup manual JSON ✔, presupuestos pospuestos a v2 ✔.
 - **Bloqueos:** ninguno. Listo para Fase 1 (`npx create-expo-app` + setup base).

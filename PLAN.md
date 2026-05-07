@@ -56,14 +56,14 @@ Hoja de ruta accionable del proyecto. Cada bloque es una **fase** con sus tareas
 
 ## Fase 4 — Pantallas principales 📱
 
-- [ ] **Home / Dashboard** — saldo total (consolidado en moneda principal), ingresos vs gastos del mes, últimos movimientos, próximos cobros recurrentes.
-- [ ] **Movimientos** — lista filtrable + agrupada por día.
-- [ ] **Nuevo movimiento** — sheet modal con form (monto, moneda, categoría, cuenta, fecha, nota).
+- [x] **Home / Dashboard** — saldo total, ingresos vs gastos del mes, cuentas, últimos movimientos.
+- [x] **Movimientos** — lista agrupada por día con montos formateados.
+- [x] **Nuevo movimiento** — sheet modal con form (monto, tipo, categoría, cuenta, nota).
 - [ ] **Analíticas** — gráficos por categoría, evolución, top gastos.
-- [ ] **Cuentas** — listado por tipo (cash / debit / checking / wallet / credit), detalle, transferencia entre cuentas (incluso entre monedas distintas).
-- [ ] **Categorías** — CRUD con icono + color.
-- [ ] **Recurrentes** — pantalla dedicada para crear/pausar/editar reglas (sueldo, suscripciones, etc.).
-- [ ] **Ajustes** — tema, moneda principal, idioma (es/en), tasas de cambio, respaldo, borrar datos.
+- [x] **Cuentas** — listado por tipo, saldo calculado, detalle.
+- [x] **Categorías** — listado con filtro ingreso/gasto, color e icono.
+- [ ] **Recurrentes** — pantalla dedicada para crear/pausar/editar reglas.
+- [x] **Ajustes** — tema (claro/oscuro/sistema), idioma (es/en), navegación a cuentas y categorías.
 
 ## Fase 5 — Personalización y pulido ✨
 
