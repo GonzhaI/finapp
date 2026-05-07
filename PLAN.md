@@ -1,0 +1,105 @@
+# PLAN.md
+
+Hoja de ruta accionable del proyecto. Cada bloque es una **fase** con sus tareas. Marca con `[x]` lo completado, deja `[ ]` lo pendiente. Mantén el documento corto: las decisiones de fondo van en `docs/adr/`.
+
+> **Estado actual:** Fase 0 (planificación y documentación) ✔️ completada. Próximo paso: Fase 1.
+
+---
+
+## Fase 0 — Planificación y documentación 📚
+
+- [x] Definir alcance del producto (uso personal, local-first).
+- [x] Elegir stack base (RN + Expo + TS).
+- [x] Crear estructura de directorios.
+- [x] Crear documentación base (README, PLAN, SETUP, ARCHITECTURE, DESIGN, CONTRIBUTING, CLAUDE).
+- [x] Documentar modelo de datos preliminar (`docs/DATA_MODEL.md`).
+- [ ] Validar las **preguntas abiertas** (ver final de este archivo).
+
+## Fase 1 — Bootstrap del proyecto Expo ⚙️
+
+- [ ] Inicializar proyecto: `npx create-expo-app@latest . --template blank-typescript`.
+- [ ] Configurar `tsconfig.json` estricto + alias `@/*` → `src/*`.
+- [ ] Instalar dependencias core: `expo-router`, `expo-sqlite`, `drizzle-orm`, `zustand`, `@tanstack/react-query`, `react-hook-form`, `zod`, `expo-blur`, `react-native-reanimated`, `react-native-gesture-handler`.
+- [ ] Configurar ESLint + Prettier (config en `.eslintrc.cjs` y `.prettierrc`).
+- [ ] Configurar Expo Router (entry point + layout raíz).
+- [ ] Crear cuenta y configurar **EAS** (`eas init`, `eas build:configure`).
+- [ ] Probar build en Expo Go desde iPhone físico (escaneo QR).
+- [ ] Crear primer **EAS development build** instalable en iPhone.
+
+## Fase 2 — Sistema de diseño + i18n 🎨
+
+- [ ] Definir tokens de tema (`src/theme/tokens.ts`): colores, espaciado, radios, tipografía.
+- [ ] Implementar tema claro y oscuro con detección automática.
+- [ ] Componentes base (`src/components/ui/`): `Text`, `Button`, `Card`, `GlassCard`, `Input`, `Sheet`, `TabBar`.
+- [ ] Implementar `GlassCard` con `expo-blur` + bordes sutiles (aproximación a Liquid Glass).
+- [ ] Definir paleta de iconos (SF Symbols vía `sf-symbols-react-native` o fallback a Lucide).
+- [ ] Cargar fuente principal (SF Pro no se puede redistribuir; usar **Inter** como sustituto).
+- [ ] **i18n bilingüe**: estructura `src/i18n/{es,en}.json` + hook `useT(key)` con detección de locale del sistema.
+- [ ] Helpers de **formato multi-moneda** (`src/utils/currency.ts`) usando `Intl.NumberFormat`.
+- [ ] Storybook ligero o pantalla `/dev/playground` para previsualizar componentes.
+
+## Fase 3 — Capa de datos 🗄️
+
+- [ ] Definir esquema en Drizzle (`src/db/schema.ts`) según `docs/DATA_MODEL.md`.
+- [ ] Configurar conexión `expo-sqlite` + Drizzle.
+- [ ] Sistema de migraciones (`src/db/migrations/`).
+- [ ] Tipos de cuenta soportados: `cash`, `debit`, `checking`, `digital_wallet`, `credit`, `savings`, `investment`, `other`.
+- [ ] Tabla `currencies` precargada (CLP, USD, EUR, ARS, BRL, GBP, MXN... ampliable).
+- [ ] Tabla `exchange_rates` para conversión manual (par moneda + tasa + fecha).
+- [ ] Tabla `recurring_rules` (incluida en v1, no postergada).
+- [ ] Seed con datos de ejemplo (toggle dev-only).
+- [ ] Repositorios (`src/db/repositories/`): `accounts`, `categories`, `transactions`, `recurringRules`, `exchangeRates`.
+- ❌ Sin tabla `budgets` en v1 (pospuesto a v2).
+- [ ] Hooks de query con TanStack Query (`src/hooks/queries/`).
+
+## Fase 4 — Pantallas principales 📱
+
+- [ ] **Home / Dashboard** — saldo total (consolidado en moneda principal), ingresos vs gastos del mes, últimos movimientos, próximos cobros recurrentes.
+- [ ] **Movimientos** — lista filtrable + agrupada por día.
+- [ ] **Nuevo movimiento** — sheet modal con form (monto, moneda, categoría, cuenta, fecha, nota).
+- [ ] **Analíticas** — gráficos por categoría, evolución, top gastos.
+- [ ] **Cuentas** — listado por tipo (cash / debit / checking / wallet / credit), detalle, transferencia entre cuentas (incluso entre monedas distintas).
+- [ ] **Categorías** — CRUD con icono + color.
+- [ ] **Recurrentes** — pantalla dedicada para crear/pausar/editar reglas (sueldo, suscripciones, etc.).
+- [ ] **Ajustes** — tema, moneda principal, idioma (es/en), tasas de cambio, respaldo, borrar datos.
+
+## Fase 5 — Personalización y pulido ✨
+
+- [ ] Selector de **acento de color** (la app cambia paleta al instante).
+- [ ] Modo automático/claro/oscuro.
+- [ ] Selector de moneda principal y formato regional.
+- [ ] Editor de tasas de cambio (manual: ej. `1 USD = 950 CLP`).
+- [ ] Animaciones de transición entre pantallas (Reanimated + shared element).
+- [ ] Haptics en acciones clave (`expo-haptics`).
+- [ ] Bloqueo con Face ID al abrir (`expo-local-authentication`) — _nice-to-have_.
+
+## Fase 6 — Backups y export 💾
+
+- [ ] Export a JSON (Share sheet de iOS).
+- [ ] Export a CSV.
+- [ ] Import desde JSON (con validación zod).
+- ~~iCloud Drive~~ — fuera de scope; backup manual basta según decisión del autor.
+
+## Fase 7 — QA y release personal 🚢
+
+- [ ] Tests de utilidades críticas (cálculos, formateadores) con Vitest o Jest.
+- [ ] Probar en iPhone real con uso diario durante 1-2 semanas.
+- [ ] Pulir copy, vacíos, estados de error.
+- [ ] Build de producción y instalación vía TestFlight (uso interno) o Ad-Hoc.
+
+---
+
+## ✅ Decisiones del producto (resueltas el 2026-05-06)
+
+1. **Multi-moneda:** ✅ **Sí, con soporte multi-moneda.** Cada cuenta y transacción guarda su moneda. Conversión opcional con tasa configurable manualmente (sin API externa por ahora).
+2. **Cuentas reales del usuario:**
+   - Efectivo (`cash`)
+   - Débito (`debit`)
+   - **Cuenta corriente** (`checking`) — nuevo `kind`
+   - **Wallets digitales** (`digital_wallet`) — para Tenpo, MercadoPago, etc. — nuevo `kind`
+   - Crédito (`credit`) — soportado para uso futuro (aún no tiene)
+3. **Presupuestos:** ✅ **Pospuestos a v2.** Razón: primero acumular datos reales con el tracker, luego decidir topes informados. Ver `docs/ROADMAP.md` v0.5.
+4. **Recurrentes:** ✅ **Sí, en v1.** Sueldo y suscripciones se auto-registran según reglas. Promoverlo de Fase 6 a Fase 4.
+5. **Bloqueo biométrico (Face ID):** 🟡 **Nice-to-have.** Queda en Fase 5 (no bloqueante).
+6. **Idiomas:** ✅ **Español + inglés desde el inicio.** i18n preparado en Fase 2.
+7. **Backup:** ✅ **Export manual JSON.** iCloud queda fuera de scope inicial.

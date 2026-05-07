@@ -1,0 +1,51 @@
+# Node / npm
+node_modules/
+npm-debug.*
+yarn-error.log
+.pnpm-store/
+
+# Expo
+.expo/
+.expo-shared/
+dist/
+web-build/
+expo-env.d.ts
+
+# Native
+ios/
+android/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Builds
+*.ipa
+*.apk
+*.aab
+
+# EAS
+.easignore
+
+# TypeScript
+*.tsbuildinfo
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Editor / SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Drizzle
+drizzle/.snapshots/
