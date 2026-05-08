@@ -1,29 +1,78 @@
-import { router } from 'expo-router';
-import { useState } from 'react';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useState, useEffect } from 'react';
 import { View, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '@/theme/ThemeProvider';
+import { useT } from '@/i18n/useT';
 import { Text } from '@/components/ui/Text';
 import { BackgroundOrbs, modalOrbs, modalOrbsLight } from '@/components/ui/BackgroundOrbs';
 import { useCategories } from '@/hooks/queries/useCategories';
 import { useAccounts } from '@/hooks/queries/useAccounts';
-import { useCreateTransaction } from '@/hooks/queries/useTransactions';
+import { useCreateRecurringRule, useUpdateRecurringRule, useRecurringRule } from '@/hooks/queries/useRecurringRules';
 import { decimalToMinor } from '@/utils/currency';
-import { useHaptics } from '@/hooks/useHaptics';
-import type { Category, Account, TransactionKind } from '@/types';
+import type { Category, Account } from '@/types';
 
-export default function NewTransactionScreen() {
+type Frequency = 'weekly' | 'biweekly' | 'monthly' | 'yearly';
+
+const cronMap: Record<Frequency, string> = {
+  weekly: '0 0 * * 1',
+  biweekly: '0 0 1,15 * *',
+  monthly: '0 0 1 * *',
+  yearly: '0 0 1 1 *',
+};
+
+const frequencyOptions: { key: Frequency; es: string; en: string }[] = [
+  { key: 'weekly', es: 'Semanal', en: 'Weekly' },
+  { key: 'biweekly', es: 'Quincenal', en: 'Biweekly' },
+  { key: 'monthly', es: 'Mensual', en: 'Monthly' },
+  { key: 'yearly', es: 'Anual', en: 'Yearly' },
+];
+
+function cronToFrequency(cron: string): Frequency {
+  const entry = Object.entries(cronMap).find(([, v]) => v === cron);
+  return (entry?.[0] as Frequency) ?? 'monthly';
+}
+
+export default function NewRecurringScreen() {
   const { theme, spacing, isDark } = useTheme();
+  const t = useT();
+  const { id } = useLocalSearchParams<{ id?: string }>();
+  const isEdit = !!id;
+
   const { data: categories } = useCategories();
   const { data: accts } = useAccounts();
-  const createTx = useCreateTransaction();
-  const haptics = useHaptics();
+  const { data: existingRule } = useRecurringRule(id ?? '');
+  const createRule = useCreateRecurringRule();
+  const updateRule = useUpdateRecurringRule();
 
-  const [kind, setKind] = useState<TransactionKind>('expense');
+  const [kind, setKind] = useState<'income' | 'expense'>('expense');
   const [amount, setAmount] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
   const [selectedAccount, setSelectedAccount] = useState<Account | null>(null);
   const [note, setNote] = useState('');
+  const [frequency, setFrequency] = useState<Frequency>('monthly');
+
+  useEffect(() => {
+    if (existingRule) {
+      const tmpl = (existingRule.template ?? {}) as Record<string, unknown>;
+      setKind((tmpl.kind as 'income' | 'expense') ?? 'expense');
+      if (tmpl.amount) {
+        const amt = Number(tmpl.amount);
+        setAmount(amt > 0 ? String(amt) : '');
+      }
+      if (tmpl.note) setNote(String(tmpl.note));
+      setFrequency(cronToFrequency(existingRule.cron));
+
+      if (tmpl.categoryId && categories) {
+        const cat = categories.find((c) => c.id === tmpl.categoryId);
+        if (cat) setSelectedCategory(cat);
+      }
+      if (tmpl.accountId && accts) {
+        const acct = accts.find((a) => a.id === tmpl.accountId);
+        if (acct) setSelectedAccount(acct);
+      }
+    }
+  }, [existingRule, categories, accts]);
 
   const filteredCategories = categories?.filter((c) => c.kind === kind) ?? [];
   const defaultAccount = accts?.[0] ?? null;
@@ -32,39 +81,47 @@ export default function NewTransactionScreen() {
     const account = selectedAccount ?? defaultAccount;
     if (!account || !amount) return;
 
-    const id = `txn-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
-
-    createTx.mutate({
-      id,
-      accountId: account.id,
+    const template = {
       kind,
-      amount: decimalToMinor(parseFloat(amount), account.currency),
+      amount: decimalToMinor(Number(amount), account.currency),
       currency: account.currency,
-      occurredAt: Date.now(),
       categoryId: selectedCategory?.id ?? null,
+      accountId: account.id,
       note: note || null,
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
-      deletedAt: null,
-      transferPairId: null,
-      recurringId: null,
-    });
+    };
 
-    haptics.success();
+    if (isEdit && id) {
+      updateRule.mutate({
+        id,
+        data: {
+          template,
+          cron: cronMap[frequency],
+          nextRunAt: existingRule?.nextRunAt ?? Date.now(),
+        },
+      });
+    } else {
+      const newId = `rule-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+      createRule.mutate({
+        id: newId,
+        template,
+        cron: cronMap[frequency],
+        nextRunAt: Date.now(),
+        active: true,
+      });
+    }
+
     router.back();
   };
 
-  const tabs: { label: string; value: TransactionKind }[] = [
-    { label: 'Gasto', value: 'expense' },
-    { label: 'Ingreso', value: 'income' },
-    { label: 'Transf.', value: 'transfer' },
+  const kindTabs = [
+    { label: 'Gasto', value: 'expense' as const },
+    { label: 'Ingreso', value: 'income' as const },
   ];
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }} edges={['top']}>
       <BackgroundOrbs orbs={isDark ? modalOrbs : modalOrbsLight} />
 
-      {/* Drag handle */}
       <View style={{ alignItems: 'center', paddingTop: 8 }}>
         <View
           style={{
@@ -77,7 +134,6 @@ export default function NewTransactionScreen() {
       </View>
 
       <ScrollView contentContainerStyle={{ padding: spacing.lg, gap: spacing.xl }}>
-        {/* Header */}
         <View
           style={{
             flexDirection: 'row',
@@ -90,24 +146,22 @@ export default function NewTransactionScreen() {
         >
           <TouchableOpacity onPress={() => router.back()}>
             <Text variant="body" style={{ fontSize: 15 }} color="accent">
-              Cancelar
+              {t('common.cancel')}
             </Text>
           </TouchableOpacity>
           <Text variant="body" style={{ fontWeight: '600' }}>
-            Nuevo movimiento
+            {isEdit ? t('recurring.editRule') : t('recurring.newRule')}
           </Text>
           <View style={{ width: 60 }} />
         </View>
 
-        {/* Segmentos de tipo */}
         <View style={{ flexDirection: 'row', gap: spacing.sm }}>
-          {tabs.map((tab) => {
+          {kindTabs.map((tab) => {
             const active = kind === tab.value;
             return (
               <TouchableOpacity
                 key={tab.value}
                 onPress={() => {
-                  haptics.selection();
                   setKind(tab.value);
                   setSelectedCategory(null);
                 }}
@@ -127,7 +181,6 @@ export default function NewTransactionScreen() {
           })}
         </View>
 
-        {/* Monto hero */}
         <View>
           <Text variant="label" color="mutedAlt" align="center" style={{ marginBottom: spacing.xs }}>
             Monto
@@ -148,7 +201,6 @@ export default function NewTransactionScreen() {
           />
         </View>
 
-        {/* Cuenta */}
         <View>
           <Text variant="itemName" color="secondary" style={{ marginBottom: spacing.xs }}>
             Cuenta
@@ -164,9 +216,7 @@ export default function NewTransactionScreen() {
                     paddingVertical: 6,
                     paddingHorizontal: 12,
                     borderRadius: 999,
-                    backgroundColor: active
-                      ? theme.colors.accent
-                      : theme.colors.glassFill05,
+                    backgroundColor: active ? theme.colors.accent : theme.colors.glassFill05,
                     borderWidth: 1,
                     borderColor: active ? theme.colors.accentBackground : 'transparent',
                   }}
@@ -184,7 +234,6 @@ export default function NewTransactionScreen() {
           </View>
         </View>
 
-        {/* Categoría */}
         <View>
           <Text variant="itemName" color="secondary" style={{ marginBottom: spacing.xs }}>
             Categoría
@@ -218,7 +267,6 @@ export default function NewTransactionScreen() {
           </View>
         </View>
 
-        {/* Nota */}
         <View
           style={{
             backgroundColor: theme.colors.surfaceGlass,
@@ -235,20 +283,43 @@ export default function NewTransactionScreen() {
           <TextInput
             value={note}
             onChangeText={setNote}
-            placeholder="Ej: almuerzo con amigos"
+            placeholder="Ej: suscripción Netflix"
             placeholderTextColor={theme.colors.textTertiary}
-            style={{
-              fontSize: 17,
-              color: theme.colors.text,
-              paddingVertical: 0,
-            }}
+            style={{ fontSize: 17, color: theme.colors.text, paddingVertical: 0 }}
           />
         </View>
 
-        {/* Save */}
+        <View>
+          <Text variant="itemName" color="secondary" style={{ marginBottom: spacing.xs }}>
+            {t('recurring.frequency')}
+          </Text>
+          <View style={{ flexDirection: 'row', gap: spacing.xs }}>
+            {frequencyOptions.map((opt) => {
+              const active = frequency === opt.key;
+              return (
+                <TouchableOpacity
+                  key={opt.key}
+                  onPress={() => setFrequency(opt.key)}
+                  style={{
+                    flex: 1,
+                    paddingVertical: 10,
+                    borderRadius: 999,
+                    backgroundColor: active ? theme.colors.accent : theme.colors.glassFill05,
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text variant="subhead" color={active ? 'inverse' : 'secondary'}>
+                    {opt.es}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+        </View>
+
         <TouchableOpacity
           onPress={handleSave}
-          disabled={!amount || (!selectedAccount && !defaultAccount) || createTx.isPending}
+          disabled={!amount || (!selectedAccount && !defaultAccount) || createRule.isPending || updateRule.isPending}
           activeOpacity={0.8}
           style={{
             height: 52,
@@ -259,15 +330,9 @@ export default function NewTransactionScreen() {
             opacity: !amount || (!selectedAccount && !defaultAccount) ? 0.4 : 1,
           }}
         >
-          {createTx.isPending ? (
-            <Text variant="button" color="white">
-              Guardando...
-            </Text>
-          ) : (
-            <Text variant="button" color="white">
-              Guardar
-            </Text>
-          )}
+          <Text variant="button" color="white">
+            {createRule.isPending || updateRule.isPending ? 'Guardando...' : t('common.save')}
+          </Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>

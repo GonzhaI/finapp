@@ -2,6 +2,8 @@
 
 Sistema de diseño y principios UX. Esta es la fuente de verdad visual del proyecto.
 
+> **Ver también:** [`SCREENS.md`](SCREENS.md) — especificación pantalla por pantalla (Inicio, Movimientos, Analítica, Ajustes) con tokens exactos, orbes de fondo y animaciones.
+
 ---
 
 ## 1. Principios

@@ -34,7 +34,17 @@
     "title": "Analytics",
     "subtitle": "Coming soon",
     "empty": "Not enough data",
-    "emptyDescription": "Record some transactions to see your analytics here"
+    "emptyDescription": "Record some transactions to see your analytics here",
+    "thisMonth": "This month",
+    "lastMonth": "Last month",
+    "last3Months": "Last 3 months",
+    "last6Months": "Last 6 months",
+    "last12Months": "Last 12 months",
+    "expensesByCategory": "Expenses by category",
+    "incomeByCategory": "Income by category",
+    "noExpenses": "No expenses in this period",
+    "noIncome": "No income in this period",
+    "balance": "Balance"
   },
   "settings": {
     "title": "Settings",
@@ -44,6 +54,46 @@
     "themeDark": "Dark",
     "language": "Language",
     "currency": "Main currency",
-    "about": "About"
+    "locale": "Region format",
+    "accent": "Accent color",
+    "about": "About",
+    "accounts": "Accounts",
+    "accountsDesc": "Manage your bank accounts, cash and more",
+    "categories": "Categories",
+    "categoriesDesc": "Organize your income and expenses",
+    "recurring": "Recurring rules",
+    "recurringDesc": "Automate periodic income and expenses",
+    "exchangeRates": "Exchange rates",
+    "exchangeRatesDesc": "Configure conversion between currencies",
+    "security": "Security",
+    "faceId": "Face ID",
+    "faceIdDesc": "Require authentication when opening the app"
+  },
+  "exchangeRates": {
+    "title": "Exchange rates",
+    "empty": "No rates configured",
+    "emptyDescription": "Add rates to convert between your currencies",
+    "newRate": "New rate",
+    "from": "From",
+    "to": "To",
+    "rate": "Rate",
+    "example": "e.g. 950"
+  },
+  "recurring": {
+    "title": "Recurring rules",
+    "empty": "No recurring rules",
+    "emptyDescription": "Create a rule to automate your salary, subscriptions and other periodic transactions",
+    "newRule": "New rule",
+    "editRule": "Edit rule",
+    "frequency": "Frequency",
+    "nextRun": "Next occurrence",
+    "paused": "Paused",
+    "active": "Active",
+    "weekly": "Weekly",
+    "biweekly": "Biweekly",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "deleteTitle": "Delete rule?",
+    "deleteDesc": "Already generated transactions will not be deleted. This action cannot be undone."
   }
 }

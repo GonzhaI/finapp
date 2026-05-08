@@ -28,11 +28,13 @@ export function getAccountBalance(accountId: string): number {
   let balance = account.initialBalance;
 
   for (const row of rows) {
-    if (row.kind === 'income' || row.kind === 'transfer') {
+    if (row.kind === 'income') {
       balance += row.total;
     } else if (row.kind === 'expense') {
       balance -= row.total;
     }
+    // Las transferencias no afectan el saldo porque representan
+    // un par de movimientos compensados entre cuentas.
   }
 
   return balance;

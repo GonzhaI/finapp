@@ -30,7 +30,7 @@ export const settingsRepo = {
           language: data.language ?? null,
           locale: data.locale ?? 'es-CL',
           theme: data.theme ?? 'system',
-          accentColor: data.accentColor ?? '#0A84FF',
+          accentColor: data.accentColor ?? '#7864f0',
           biometricLock: data.biometricLock ?? false,
           firstRunAt: data.firstRunAt ?? Date.now(),
         })

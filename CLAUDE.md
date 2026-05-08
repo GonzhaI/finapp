@@ -55,6 +55,7 @@ App móvil **iOS** de **gestión de finanzas personales**, uso individual del au
 
 ## Estado actual (actualizar cada cambio importante)
 
-- **Fase:** 3 completa. Fase 4 — pantallas principales implementadas (dashboard, movimientos, nuevo movimiento, cuentas, categorías, ajustes). Próximo: Analíticas y recurrentes (Fase 4 pendiente) + Fase 5 (personalización).
-- **Decisiones de producto resueltas (2026-05-06):** multi-moneda ✔, cuentas (cash/debit/checking/digital_wallet/credit) ✔, recurrentes en v1 ✔, bilingüe es+en ✔, Face ID nice-to-have, backup manual JSON ✔, presupuestos pospuestos a v2 ✔.
-- **Bloqueos:** ninguno. Listo para Fase 1 (`npx create-expo-app` + setup base).
+- **Fase:** 6 completa (backups JSON/CSV + import). Fases 3–6 cerradas; todas las pantallas implementadas y rediseñadas según `SCREENS.md` (Inicio, Movimientos, Analítica, Ajustes + Nuevo Movimiento, Cuentas, Categorías, Tipos de cambio, Recurrentes y sus modales). Próximo: **Fase 7 — QA y release personal** (tests de utilidades, prueba en iPhone real 1-2 semanas, pulido de copy/vacíos, build TestFlight/Ad-Hoc).
+- **Pendientes residuales de fases anteriores:** Fase 0 — validar preguntas abiertas (en la práctica ya resueltas). Fase 1 — primer EAS development build instalable. Fase 2 — pantalla `/dev/playground` (opcional).
+- **Decisiones de producto resueltas (2026-05-06):** multi-moneda ✔, cuentas (cash/debit/checking/digital_wallet/credit/savings/investment/other) ✔, recurrentes en v1 ✔, bilingüe es+en ✔, Face ID implementado ✔, backup manual JSON+CSV ✔, presupuestos pospuestos a v2 ✔.
+- **Bloqueos:** ninguno.

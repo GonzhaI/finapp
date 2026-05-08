@@ -25,4 +25,15 @@ export default [
   {
     ignores: ['node_modules/', '.expo/', 'dist/', 'web-build/', 'scripts/'],
   },
+  {
+    files: ['*.config.{js,cjs,mjs}'],
+    languageOptions: {
+      globals: {
+        module: 'readonly',
+        require: 'readonly',
+        __dirname: 'readonly',
+        process: 'readonly',
+      },
+    },
+  },
 ];

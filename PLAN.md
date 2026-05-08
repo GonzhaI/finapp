@@ -2,7 +2,7 @@
 
 Hoja de ruta accionable del proyecto. Cada bloque es una **fase** con sus tareas. Marca con `[x]` lo completado, deja `[ ]` lo pendiente. Mantén el documento corto: las decisiones de fondo van en `docs/adr/`.
 
-> **Estado actual:** Fase 2 (sistema de diseño + i18n) avanzada. Componentes base, tema claro/oscuro, i18n, y utilidades listos. Próximo paso: Fase 3 (capa de datos).
+> **Estado actual:** Fase 6 completa (backups). Todas las pantallas rediseñadas con SCREENS.md. Próximo: Fase 7 (QA y release).
 
 ---
 
@@ -32,7 +32,7 @@ Hoja de ruta accionable del proyecto. Cada bloque es una **fase** con sus tareas
 - [x] Implementar tema claro y oscuro con detección automática.
 - [x] Componentes base (`src/components/ui/`): `Text`, `Button`, `Card`, `GlassCard`, `Input`, `Pill`, `EmptyState`, `Skeleton`.
 - [x] Implementar `GlassCard` con `expo-blur` + bordes sutiles (aproximación a Liquid Glass).
-- [ ] Definir paleta de iconos (SF Symbols vía `expo-symbols` o fallback a Lucide).
+- [x] Definir paleta de iconos (Ionicons vía `@expo/vector-icons`).
 - [x] Cargar fuente principal (Inter como sustituto de SF Pro).
 - [x] **i18n bilingüe**: estructura `src/i18n/{es,en}.json` + hook `useT(key)` con detección de locale del sistema.
 - [x] Helpers de **formato multi-moneda** (`src/utils/currency.ts`) usando `Intl.NumberFormat`.
@@ -59,27 +59,27 @@ Hoja de ruta accionable del proyecto. Cada bloque es una **fase** con sus tareas
 - [x] **Home / Dashboard** — saldo total, ingresos vs gastos del mes, cuentas, últimos movimientos.
 - [x] **Movimientos** — lista agrupada por día con montos formateados.
 - [x] **Nuevo movimiento** — sheet modal con form (monto, tipo, categoría, cuenta, nota).
-- [ ] **Analíticas** — gráficos por categoría, evolución, top gastos.
+- [x] **Analíticas** — gráficos por categoría, evolución, top gastos.
 - [x] **Cuentas** — listado por tipo, saldo calculado, detalle.
 - [x] **Categorías** — listado con filtro ingreso/gasto, color e icono.
-- [ ] **Recurrentes** — pantalla dedicada para crear/pausar/editar reglas.
-- [x] **Ajustes** — tema (claro/oscuro/sistema), idioma (es/en), navegación a cuentas y categorías.
+- [x] **Recurrentes** — pantalla dedicada para crear/pausar/editar reglas.
+- [x] **Ajustes** — tema (claro/oscuro/sistema), idioma (es/en), navegación a cuentas, categorías y recurrentes.
 
 ## Fase 5 — Personalización y pulido ✨
 
-- [ ] Selector de **acento de color** (la app cambia paleta al instante).
-- [ ] Modo automático/claro/oscuro.
-- [ ] Selector de moneda principal y formato regional.
-- [ ] Editor de tasas de cambio (manual: ej. `1 USD = 950 CLP`).
-- [ ] Animaciones de transición entre pantallas (Reanimated + shared element).
-- [ ] Haptics en acciones clave (`expo-haptics`).
-- [ ] Bloqueo con Face ID al abrir (`expo-local-authentication`) — _nice-to-have_.
+- [x] Selector de **acento de color** (la app cambia paleta al instante).
+- [x] Modo automático/claro/oscuro.
+- [x] Selector de moneda principal y formato regional.
+- [x] Editor de tasas de cambio (manual: ej. `1 USD = 950 CLP`).
+- [x] Animaciones de transición entre pantallas (fade en modales).
+- [x] Haptics en acciones clave (`expo-haptics`).
+- [x] Bloqueo con Face ID al abrir (`expo-local-authentication`) — _nice-to-have_.
 
 ## Fase 6 — Backups y export 💾
 
-- [ ] Export a JSON (Share sheet de iOS).
-- [ ] Export a CSV.
-- [ ] Import desde JSON (con validación zod).
+- [x] Export a JSON (Share sheet de iOS).
+- [x] Export a CSV.
+- [x] Import desde JSON (con validación zod).
 - ~~iCloud Drive~~ — fuera de scope; backup manual basta según decisión del autor.
 
 ## Fase 7 — QA y release personal 🚢

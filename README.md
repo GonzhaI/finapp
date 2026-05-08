@@ -59,6 +59,7 @@ Setup completo paso a paso: [`SETUP.md`](SETUP.md).
 | [`SETUP.md`](SETUP.md) | Configuración del entorno (Windows → iOS) |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | Decisiones técnicas y estructura del código |
 | [`DESIGN.md`](DESIGN.md) | Sistema de diseño, principios UI/UX, Liquid Glass |
+| [`SCREENS.md`](SCREENS.md) | Especificación visual detallada de las 4 pantallas principales |
 | [`CHANGELOG.md`](CHANGELOG.md) | Historial de cambios |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | Estándares de código y guía para IAs/colaboradores |
 | [`CLAUDE.md`](CLAUDE.md) | Contexto cargado automáticamente por Claude Code |

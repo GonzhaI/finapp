@@ -4,19 +4,21 @@ import { useTheme } from '@/theme/ThemeProvider';
 
 type Props = ViewProps & {
   children: React.ReactNode;
+  radius?: keyof ReturnType<typeof useTheme>['radii'];
 };
 
-export function Card({ style, children, ...props }: Props) {
-  const { theme, radii, shadow } = useTheme();
+export function Card({ style, children, radius, ...props }: Props) {
+  const { theme, radii } = useTheme();
 
   return (
     <View
       style={[
         {
           backgroundColor: theme.colors.surface,
-          borderRadius: radii.lg,
+          borderRadius: radius ? radii[radius] : radii.card18,
           padding: 16,
-          ...shadow.sm,
+          borderWidth: 1,
+          borderColor: theme.colors.border,
         },
         style,
       ]}

@@ -5,32 +5,22 @@ import { useTheme } from '@/theme/ThemeProvider';
 
 type Props = ViewProps & {
   intensity?: number;
-  tint?: 'light' | 'dark' | 'default';
   children: React.ReactNode;
 };
 
 export function GlassCard({
   intensity = 40,
-  tint,
   style,
   children,
   ...props
 }: Props) {
-  const { radii, isDark } = useTheme();
-
-  const blurTint = tint ?? (isDark ? 'dark' : 'light');
-  const borderColor = isDark
-    ? 'rgba(255, 255, 255, 0.12)'
-    : 'rgba(255, 255, 255, 0.5)';
-  const highlightColor = isDark
-    ? 'rgba(255, 255, 255, 0.08)'
-    : 'rgba(255, 255, 255, 0.6)';
+  const { theme, radii, isDark } = useTheme();
 
   return (
     <View
       style={[
         {
-          borderRadius: radii.lg,
+          borderRadius: radii.card18,
           overflow: 'hidden',
         },
         style,
@@ -39,14 +29,13 @@ export function GlassCard({
     >
       <BlurView
         intensity={intensity}
-        tint={blurTint}
+        tint={isDark ? 'dark' : 'light'}
         style={{
-          borderRadius: radii.lg,
+          borderRadius: radii.card18,
           borderWidth: StyleSheet.hairlineWidth,
-          borderColor,
+          borderColor: theme.colors.glassBorder,
         }}
       >
-        {/* Highlight sutil en borde superior */}
         {Platform.OS === 'ios' && (
           <View
             style={{
@@ -55,7 +44,7 @@ export function GlassCard({
               left: 0,
               right: 0,
               height: StyleSheet.hairlineWidth,
-              backgroundColor: highlightColor,
+              backgroundColor: theme.colors.glassHighlight,
             }}
           />
         )}

@@ -8,13 +8,21 @@ export type AppThemeColors = {
   text: string;
   textSecondary: string;
   textTertiary: string;
+  textMutedAlt: string;
   textInverse: string;
+  textWhite: string;
   accent: string;
   accentBackground: string;
+  accentActive: string;
   income: string;
+  incomeBackground: string;
+  incomeBorder: string;
   expense: string;
+  expenseBackground: string;
   warning: string;
+  warningBackground: string;
   info: string;
+  infoBackground: string;
   border: string;
   borderLight: string;
   separator: string;
@@ -22,6 +30,12 @@ export type AppThemeColors = {
   glassHighlight: string;
   skeleton: string;
   overlay: string;
+  tabBarBg: string;
+  tabInactive: string;
+  glassFill: string;
+  glassFill05: string;
+  glassFill08: string;
+  glassFill15: string;
 };
 
 export type AppTheme = {

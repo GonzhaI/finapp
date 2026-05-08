@@ -2,11 +2,35 @@ import React from 'react';
 import { Text as RNText, type TextProps as RNTextProps } from 'react-native';
 import { useTheme } from '@/theme/ThemeProvider';
 
-type TextVariant = 'display' | 'title1' | 'title2' | 'title3' | 'body' | 'subhead' | 'caption' | 'button';
+type TextVariant =
+  | 'hero'
+  | 'screenTitle'
+  | 'title2'
+  | 'title3'
+  | 'body'
+  | 'statValue'
+  | 'subhead'
+  | 'itemName'
+  | 'caption'
+  | 'button'
+  | 'label'
+  | 'label10'
+  | 'micro';
 
 type Props = RNTextProps & {
   variant?: TextVariant;
-  color?: 'primary' | 'secondary' | 'tertiary' | 'inverse' | 'accent' | 'income' | 'expense' | 'warning';
+  color?:
+    | 'primary'
+    | 'secondary'
+    | 'tertiary'
+    | 'mutedAlt'
+    | 'inverse'
+    | 'white'
+    | 'accent'
+    | 'income'
+    | 'expense'
+    | 'warning'
+    | 'info';
   align?: 'left' | 'center' | 'right';
   children: React.ReactNode;
 };
@@ -25,11 +49,14 @@ export function Text({
     primary: theme.colors.text,
     secondary: theme.colors.textSecondary,
     tertiary: theme.colors.textTertiary,
+    mutedAlt: theme.colors.textMutedAlt,
     inverse: theme.colors.textInverse,
+    white: theme.colors.textWhite,
     accent: theme.colors.accent,
     income: theme.colors.income,
     expense: theme.colors.expense,
     warning: theme.colors.warning,
+    info: theme.colors.info,
   };
 
   return (

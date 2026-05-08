@@ -11,11 +11,14 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#08090f"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "dev.anomalyco.finapp"
+      "bundleIdentifier": "dev.anomalyco.finapp",
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Usamos Face ID para proteger el acceso a la app y tus datos financieros."
+      }
     },
     "plugins": [
       "expo-router",

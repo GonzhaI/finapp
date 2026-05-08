@@ -34,7 +34,17 @@
     "title": "Analítica",
     "subtitle": "Próximamente",
     "empty": "Sin datos suficientes",
-    "emptyDescription": "Registra algunas transacciones para ver tus analíticas aquí"
+    "emptyDescription": "Registra algunas transacciones para ver tus analíticas aquí",
+    "thisMonth": "Este mes",
+    "lastMonth": "Mes pasado",
+    "last3Months": "Últimos 3 meses",
+    "last6Months": "Últimos 6 meses",
+    "last12Months": "Últimos 12 meses",
+    "expensesByCategory": "Gastos por categoría",
+    "incomeByCategory": "Ingresos por categoría",
+    "noExpenses": "No hay gastos en este periodo",
+    "noIncome": "No hay ingresos en este periodo",
+    "balance": "Balance"
   },
   "settings": {
     "title": "Ajustes",
@@ -44,6 +54,46 @@
     "themeDark": "Oscuro",
     "language": "Idioma",
     "currency": "Moneda principal",
-    "about": "Acerca de"
+    "locale": "Formato regional",
+    "accent": "Color de acento",
+    "about": "Acerca de",
+    "accounts": "Cuentas",
+    "accountsDesc": "Gestiona tus cuentas bancarias, efectivo y más",
+    "categories": "Categorías",
+    "categoriesDesc": "Organiza tus gastos e ingresos",
+    "recurring": "Reglas recurrentes",
+    "recurringDesc": "Automatiza ingresos y gastos periódicos",
+    "exchangeRates": "Tasas de cambio",
+    "exchangeRatesDesc": "Configura la conversión entre monedas",
+    "security": "Seguridad",
+    "faceId": "Face ID",
+    "faceIdDesc": "Requiere autenticación al abrir la app"
+  },
+  "exchangeRates": {
+    "title": "Tasas de cambio",
+    "empty": "Sin tasas configuradas",
+    "emptyDescription": "Agrega tasas para convertir entre tus monedas",
+    "newRate": "Nueva tasa",
+    "from": "De",
+    "to": "A",
+    "rate": "Tasa",
+    "example": "Ej: 950"
+  },
+  "recurring": {
+    "title": "Reglas recurrentes",
+    "empty": "Sin reglas recurrentes",
+    "emptyDescription": "Crea una regla para automatizar tu sueldo, suscripciones y otros movimientos periódicos",
+    "newRule": "Nueva regla",
+    "editRule": "Editar regla",
+    "frequency": "Frecuencia",
+    "nextRun": "Próximo registro",
+    "paused": "Pausado",
+    "active": "Activo",
+    "weekly": "Semanal",
+    "biweekly": "Quincenal",
+    "monthly": "Mensual",
+    "yearly": "Anual",
+    "deleteTitle": "¿Eliminar regla?",
+    "deleteDesc": "Los movimientos ya generados no se eliminarán. Esta acción no se puede deshacer."
   }
 }

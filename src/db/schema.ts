@@ -68,7 +68,7 @@ export const settings = sqliteTable('settings', {
   theme: text('theme', { enum: ['system', 'light', 'dark'] })
     .notNull()
     .default('system'),
-  accentColor: text('accent_color').notNull().default('#0A84FF'),
+  accentColor: text('accent_color').notNull().default('#7864f0'),
   biometricLock: integer('biometric_lock', { mode: 'boolean' }).notNull().default(false),
   firstRunAt: integer('first_run_at'),
 });
