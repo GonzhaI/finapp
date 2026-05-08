@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { View, ScrollView, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 import Svg, { Circle, Path } from 'react-native-svg';
 import { useTheme } from '@/theme/ThemeProvider';
 import { useT } from '@/i18n/useT';
@@ -137,33 +138,29 @@ export default function AnalyticsScreen() {
         {/* Header */}
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <Text variant="screenTitle">{t('analytics.title')}</Text>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View style={{ flexDirection: 'row', gap: spacing.sm }}>
-              {(Object.keys(periodLabels) as Period[]).map((p) => (
-                <TouchableOpacity
-                  key={p}
-                  onPress={() => setPeriod(p)}
-                  style={{
-                    paddingVertical: 6,
-                    paddingHorizontal: 14,
-                    borderRadius: radii.pill,
-                    backgroundColor:
-                      period === p ? theme.colors.glassFill15 : theme.colors.glassFill08,
-                    borderWidth: 1,
-                    borderColor:
-                      period === p ? theme.colors.glassHighlight : theme.colors.borderLight,
-                  }}
-                >
-                  <Text
-                    variant="micro"
-                    color={period === p ? 'primary' : 'secondary'}
-                  >
-                    {periodLabels[p]}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </ScrollView>
+          <TouchableOpacity
+            onPress={() => {
+              const keys = Object.keys(periodLabels) as Period[];
+              const idx = keys.indexOf(period);
+              setPeriod(keys[(idx + 1) % keys.length]);
+            }}
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              gap: spacing.xs,
+              paddingVertical: 6,
+              paddingHorizontal: 14,
+              borderRadius: radii.pill,
+              backgroundColor: theme.colors.glassFill08,
+              borderWidth: 1,
+              borderColor: theme.colors.glassHighlight,
+            }}
+          >
+            <Ionicons name="calendar" size={14} color={theme.colors.textSecondary} />
+            <Text variant="label" color="secondary" style={{ textTransform: 'none', letterSpacing: 0 }}>
+              {periodLabels[period]}
+            </Text>
+          </TouchableOpacity>
         </View>
 
         {!hasData ? (

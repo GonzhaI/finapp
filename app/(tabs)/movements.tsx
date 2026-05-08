@@ -14,6 +14,10 @@ import { useTransactions } from '@/hooks/queries/useTransactions';
 import { useCategories } from '@/hooks/queries/useCategories';
 import { formatCurrency } from '@/utils/currency';
 import { formatRelativeDay } from '@/utils/date';
+
+function capitalize(s: string): string {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
 import type { Transaction } from '@/types';
 
 type Filter = 'all' | 'income' | 'expense' | 'currentMonth';
@@ -87,10 +91,10 @@ export default function MovementsScreen() {
     }
     return Array.from(map.entries()).map(([key, group]) => ({
       key,
-      label: new Date(group.year, group.month).toLocaleString(i18nLocale === 'es' ? 'es' : 'en', {
+      label: capitalize(new Date(group.year, group.month).toLocaleString(i18nLocale === 'es' ? 'es' : 'en', {
         month: 'long',
         year: 'numeric',
-      }),
+      })),
       items: group.items.sort((a, b) => b.occurredAt - a.occurredAt),
     }));
   }, [filtered]);
@@ -152,7 +156,7 @@ export default function MovementsScreen() {
                 {(Object.keys(filterLabels) as Filter[]).map((f) => {
                   const label =
                     f === 'currentMonth'
-                      ? new Date().toLocaleString(i18nLocale === 'es' ? 'es' : 'en', { month: 'long' })
+                      ? capitalize(new Date().toLocaleString(i18nLocale === 'es' ? 'es' : 'en', { month: 'long' }))
                       : filterLabels[f][i18nLocale];
                   const active = filter === f;
                   return (
@@ -221,7 +225,11 @@ export default function MovementsScreen() {
                     : cat?.color || theme.colors.warning;
 
                 return (
-                  <View key={tx.id}>
+                  <TouchableOpacity
+                    key={tx.id}
+                    activeOpacity={0.6}
+                    onPress={() => router.push(`/transaction-detail?id=${tx.id}`)}
+                  >
                     {idx > 0 && (
                       <View
                         style={{
@@ -268,7 +276,7 @@ export default function MovementsScreen() {
                         {formatCurrency(tx.amount, tx.currency)}
                       </Text>
                     </View>
-                  </View>
+                  </TouchableOpacity>
                 );
               })}
             </View>

@@ -30,9 +30,9 @@ export function useCreateTransaction() {
   const qc = useQueryClient();
   return useMutation<unknown, DefaultError, InsertTransactionData>({
     mutationFn: (data) => transactionsRepo.create(data) as unknown as Promise<unknown>,
-    onSuccess: (_data, variables) => {
+    onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['transactions'] });
-      qc.invalidateQueries({ queryKey: ['accounts', variables.accountId] });
+      qc.invalidateQueries({ queryKey: ['accounts'] });
     },
   });
 }
@@ -45,7 +45,10 @@ export function useUpdateTransaction() {
     { id: string; data: Partial<InsertTransactionData> }
   >({
     mutationFn: ({ id, data }) => transactionsRepo.update(id, data) as unknown as Promise<unknown>,
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['transactions'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['transactions'] });
+      qc.invalidateQueries({ queryKey: ['accounts'] });
+    },
   });
 }
 
@@ -56,6 +59,9 @@ export function useDeleteTransaction() {
       transactionsRepo.softDelete(id);
       return undefined as unknown as Promise<unknown>;
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['transactions'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['transactions'] });
+      qc.invalidateQueries({ queryKey: ['accounts'] });
+    },
   });
 }

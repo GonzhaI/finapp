@@ -131,6 +131,8 @@ function AppContent() {
         <Stack.Screen name="new-recurring" options={{ presentation: 'modal', animation: 'fade' }} />
         <Stack.Screen name="exchange-rates" options={{ headerShown: false }} />
         <Stack.Screen name="new-exchange-rate" options={{ presentation: 'modal', animation: 'fade' }} />
+        <Stack.Screen name="new-account" options={{ presentation: 'modal', animation: 'fade' }} />
+        <Stack.Screen name="transaction-detail" options={{ presentation: 'modal', animation: 'fade' }} />
       </Stack>
     </>
   );

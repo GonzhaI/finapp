@@ -7,6 +7,7 @@ import { useT } from '@/i18n/useT';
 import { Text } from '@/components/ui/Text';
 import { BackgroundOrbs, homeOrbs, homeOrbsLight } from '@/components/ui/BackgroundOrbs';
 import { useTransactions } from '@/hooks/queries/useTransactions';
+import { useAccounts } from '@/hooks/queries/useAccounts';
 import { useCategories } from '@/hooks/queries/useCategories';
 import { useSettingsStore } from '@/store/settingsStore';
 import {
@@ -44,6 +45,8 @@ export default function HomeScreen() {
   const t = useT();
   const { data: txns } = useTransactions(10);
   const { data: cats } = useCategories();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _accts = useAccounts(); // suscripción para invalidación en tiempo real
   const primaryCurrency = useSettingsStore((s) => s.primaryCurrency);
 
   const totalBalance = getTotalBalance();
@@ -286,6 +289,7 @@ export default function HomeScreen() {
                   <TouchableOpacity
                     key={tx.id}
                     activeOpacity={0.7}
+                    onPress={() => router.push(`/transaction-detail?id=${tx.id}`)}
                     style={{
                       flexDirection: 'row',
                       alignItems: 'center',

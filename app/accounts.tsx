@@ -1,6 +1,7 @@
 import { View, FlatList, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/theme/ThemeProvider';
 import { Text } from '@/components/ui/Text';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -64,7 +65,9 @@ export default function AccountsScreen() {
           renderItem={({ item }) => {
             const balance = getAccountBalance(item.id);
             return (
-              <View
+              <TouchableOpacity
+                onPress={() => router.push(`/new-account?id=${item.id}`)}
+                activeOpacity={0.7}
                 style={{
                   backgroundColor: theme.colors.surface,
                   borderRadius: radii.card18,
@@ -98,11 +101,34 @@ export default function AccountsScreen() {
                     )}
                   </View>
                 </View>
-              </View>
+              </TouchableOpacity>
             );
           }}
         />
       )}
+
+      <TouchableOpacity
+        onPress={() => router.push('/new-account')}
+        activeOpacity={0.9}
+        style={{
+          position: 'absolute',
+          bottom: spacing.xl,
+          right: spacing.lg,
+          width: 56,
+          height: 56,
+          borderRadius: 28,
+          backgroundColor: theme.colors.accent,
+          alignItems: 'center',
+          justifyContent: 'center',
+          shadowColor: theme.colors.accent,
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.3,
+          shadowRadius: 8,
+          elevation: 8,
+        }}
+      >
+        <Ionicons name="add" size={28} color="#FFFFFF" />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
