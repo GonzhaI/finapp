@@ -9,7 +9,7 @@ import { BackgroundOrbs, modalOrbs, modalOrbsLight } from '@/components/ui/Backg
 import { useTransaction, useUpdateTransaction, useDeleteTransaction } from '@/hooks/queries/useTransactions';
 import { useCategories } from '@/hooks/queries/useCategories';
 import { useAccounts } from '@/hooks/queries/useAccounts';
-import { formatCurrency, decimalToMinor } from '@/utils/currency';
+import { formatCurrency, decimalToMinor, minorToDecimal } from '@/utils/currency';
 import { useHaptics } from '@/hooks/useHaptics';
 import type { Category, Account } from '@/types';
 
@@ -31,7 +31,7 @@ export default function TransactionDetailScreen() {
 
   useEffect(() => {
     if (tx) {
-      setAmount(String(tx.amount));
+      setAmount(String(minorToDecimal(tx.amount, tx.currency)));
       setNote(tx.note ?? '');
       if (tx.categoryId && cats) {
         setSelectedCategory(cats.find((c) => c.id === tx.categoryId) ?? null);
@@ -61,12 +61,14 @@ export default function TransactionDetailScreen() {
   };
 
   const handleSave = () => {
-    if (!amount) return;
+    const n = parseFloat(amount);
+    if (!amount || isNaN(n) || n <= 0) return;
     const account = selectedAccount ?? accts?.find((a) => a.id === tx.accountId) ?? null;
     updateTx.mutate({
       id: tx.id,
       data: {
-        amount: decimalToMinor(parseFloat(amount), account?.currency ?? tx.currency),
+        accountId: account?.id,
+        amount: decimalToMinor(n, account?.currency ?? tx.currency),
         categoryId: selectedCategory?.id ?? null,
         note: note || null,
         updatedAt: Date.now(),

@@ -80,6 +80,8 @@ export default function NewRecurringScreen() {
   const handleSave = () => {
     const account = selectedAccount ?? defaultAccount;
     if (!account || !amount) return;
+    const n = Number(amount);
+    if (isNaN(n) || n <= 0) return;
 
     const template = {
       kind,

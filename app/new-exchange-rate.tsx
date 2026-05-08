@@ -22,6 +22,8 @@ export default function NewExchangeRateScreen() {
 
   const handleSave = () => {
     if (!fromCurrency || !toCurrency || !rate) return;
+    const n = parseFloat(rate);
+    if (isNaN(n) || n <= 0) return;
 
     const id = `rate-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 

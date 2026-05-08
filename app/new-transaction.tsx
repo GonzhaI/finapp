@@ -60,10 +60,11 @@ export default function NewTransactionScreen() {
 
   const handleSave = () => {
     const account = selectedAccount ?? defaultAccount;
-    if (!account || !amount) return;
+    const n = parseFloat(amount);
+    if (!account || !amount || isNaN(n) || n <= 0) return;
 
     const now = Date.now();
-    const amountMinor = decimalToMinor(parseFloat(amount), account.currency);
+    const amountMinor = decimalToMinor(n, account.currency);
 
     if (isTransfer && transferToAccount && !transferIsExpense) {
       const pairId = `pair-${now}-${Math.random().toString(36).slice(2, 9)}`;
@@ -286,7 +287,7 @@ export default function NewTransactionScreen() {
         {/* Save */}
         <TouchableOpacity
           onPress={handleSave}
-          disabled={!amount || (!selectedAccount && !defaultAccount) || createTx.isPending}
+          disabled={(() => { const n = parseFloat(amount); return !amount || isNaN(n) || n <= 0 || (!selectedAccount && !defaultAccount); })() || createTx.isPending}
           activeOpacity={0.8}
           style={{ height: 52, borderRadius: 14, backgroundColor: theme.colors.accent, alignItems: 'center', justifyContent: 'center', opacity: !amount || (!selectedAccount && !defaultAccount) ? 0.4 : 1 }}
         >

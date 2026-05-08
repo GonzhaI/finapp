@@ -1,12 +1,13 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState, useEffect } from 'react';
-import { View, ScrollView, TouchableOpacity, TextInput } from 'react-native';
+import { View, ScrollView, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '@/theme/ThemeProvider';
 import { Text } from '@/components/ui/Text';
 import { BackgroundOrbs, modalOrbs, modalOrbsLight } from '@/components/ui/BackgroundOrbs';
-import { useAccount, useCreateAccount, useUpdateAccount, useArchiveAccount } from '@/hooks/queries/useAccounts';
+import { useAccounts, useAccount, useCreateAccount, useUpdateAccount, useArchiveAccount } from '@/hooks/queries/useAccounts';
 import { useHaptics } from '@/hooks/useHaptics';
+import { minorToDecimal, decimalToMinor } from '@/utils/currency';
 import type { AccountKind } from '@/types';
 
 const accountKinds: { kind: AccountKind; es: string }[] = [
@@ -40,6 +41,7 @@ export default function NewAccountScreen() {
   const { id } = useLocalSearchParams<{ id?: string }>();
   const isEdit = !!id;
   const { data: existing } = useAccount(id ?? null);
+  const { data: allAccounts } = useAccounts();
   const createAcc = useCreateAccount();
   const updateAcc = useUpdateAccount();
   const archiveAcc = useArchiveAccount();
@@ -58,14 +60,26 @@ export default function NewAccountScreen() {
       setKind(existing.kind);
       setCurrency(existing.currency);
       setProvider(existing.provider ?? '');
-      setInitialBalance(String(existing.initialBalance));
-      setCreditLimit(existing.creditLimit ? String(existing.creditLimit) : '');
+      setInitialBalance(String(minorToDecimal(existing.initialBalance, existing.currency)));
+      setCreditLimit(existing.creditLimit != null ? String(minorToDecimal(existing.creditLimit, existing.currency)) : '');
       setColor(existing.color);
     }
   }, [existing]);
 
   const handleSave = () => {
     if (!name.trim()) return;
+
+    const initBal = initialBalance ? parseFloat(initialBalance) : 0;
+    if (isNaN(initBal) || initBal < 0) return;
+
+    let creditLim: number | null = null;
+    if (kind === 'credit' && creditLimit) {
+      const cl = parseFloat(creditLimit);
+      if (!isNaN(cl) && cl >= 0) {
+        creditLim = decimalToMinor(cl, currency);
+      }
+    }
+
     haptics.success();
 
     const data = {
@@ -73,14 +87,23 @@ export default function NewAccountScreen() {
       kind,
       currency,
       provider: provider.trim() || null,
-      initialBalance: Number(initialBalance) || 0,
-      creditLimit: kind === 'credit' ? Number(creditLimit) || null : null,
+      initialBalance: decimalToMinor(initBal, currency),
+      creditLimit: creditLim,
       color,
       icon: kind,
       archived: false,
       createdAt: existing?.createdAt ?? Date.now(),
       updatedAt: Date.now(),
     };
+
+    const trimmed = name.trim();
+    const duplicate = allAccounts?.find(
+      (a) => a.name.toLowerCase() === trimmed.toLowerCase() && a.id !== id,
+    );
+    if (duplicate) {
+      Alert.alert('Nombre duplicado', 'Ya existe una cuenta con ese nombre.');
+      return;
+    }
 
     if (isEdit && id) {
       updateAcc.mutate({ id, data });

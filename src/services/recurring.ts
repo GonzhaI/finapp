@@ -50,41 +50,51 @@ export function execRecurringRules(): number {
   let created = 0;
 
   for (const rule of dueRules) {
-    try {
-      const tmpl = rule.template as Record<string, unknown> | null;
-      if (!tmpl) continue;
+    const tmpl = rule.template as Record<string, unknown> | null;
+    const accountId = tmpl?.accountId ? String(tmpl.accountId) : '';
+    const kind = tmpl?.kind ? String(tmpl.kind) : '';
+    const amount = Number(tmpl?.amount ?? 0);
+    const currency = String(tmpl?.currency ?? 'CLP');
 
-      const txId = `txn-rule-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
-      const nowMs = Date.now();
+    const isTemplateValid = accountId && kind && amount > 0;
 
-      db.insert(transactions)
-        .values({
-          id: txId,
-          accountId: String(tmpl.accountId ?? ''),
-          kind: String(tmpl.kind ?? 'expense') as 'income' | 'expense' | 'transfer',
-          amount: Number(tmpl.amount ?? 0),
-          currency: String(tmpl.currency ?? 'CLP'),
-          occurredAt: nowMs,
-          note: String(tmpl.note ?? ''),
-          categoryId: tmpl.categoryId ? String(tmpl.categoryId) : null,
-          recurringId: rule.id,
-          createdAt: nowMs,
-          updatedAt: nowMs,
-          deletedAt: null,
-          transferPairId: null,
-        })
-        .run();
+    while (rule.nextRunAt <= now) {
+      if (isTemplateValid) {
+        try {
+          const nowMs = Date.now();
+          const txId = `txn-rule-${nowMs}-${Math.random().toString(36).slice(2, 9)}`;
 
-      const nextAt = advanceCron(rule.cron, rule.nextRunAt);
-      db.update(recurringRules)
-        .set({ nextRunAt: nextAt })
-        .where(eq(recurringRules.id, rule.id))
-        .run();
+          db.insert(transactions)
+            .values({
+              id: txId,
+              accountId,
+              kind: kind as 'income' | 'expense' | 'transfer',
+              amount,
+              currency,
+              occurredAt: nowMs,
+              note: tmpl?.note ? String(tmpl.note) : null,
+              categoryId: tmpl?.categoryId ? String(tmpl.categoryId) : null,
+              recurringId: rule.id,
+              createdAt: nowMs,
+              updatedAt: nowMs,
+              deletedAt: null,
+              transferPairId: null,
+            })
+            .run();
 
-      created++;
-    } catch {
-      // skip malformed rules so one failure doesn't block others
+          created++;
+        } catch {
+          // skip malformed insert — advance anyway to avoid infinite stuck
+        }
+      }
+
+      rule.nextRunAt = advanceCron(rule.cron, rule.nextRunAt);
     }
+
+    db.update(recurringRules)
+      .set({ nextRunAt: rule.nextRunAt })
+      .where(eq(recurringRules.id, rule.id))
+      .run();
   }
 
   return created;

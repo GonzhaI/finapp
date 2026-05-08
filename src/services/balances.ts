@@ -55,6 +55,7 @@ export function getTotalsInRange(from: number, to: number) {
         gte(transactions.occurredAt, from),
         lte(transactions.occurredAt, to),
         isNull(transactions.deletedAt),
+        isNull(transactions.transferPairId),
       ),
     )
     .groupBy(transactions.kind)

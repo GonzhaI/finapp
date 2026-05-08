@@ -20,24 +20,29 @@ function AppContent() {
 
   useEffect(() => {
     if (migrationResult.success) {
-      seed().then(() => {
-        settingsRepo.upsert({});
+      seed()
+        .then(() => {
+          settingsRepo.upsert({});
 
-        const dbSettings = settingsRepo.get();
-        if (dbSettings) {
-          useThemeStore.getState().setAccentColor(dbSettings.accentColor);
-          useThemeStore.getState().setMode(dbSettings.theme);
-          if (dbSettings.language === 'es' || dbSettings.language === 'en') {
-            useI18nStore.getState().setLocale(dbSettings.language);
+          const dbSettings = settingsRepo.get();
+          if (dbSettings) {
+            useThemeStore.getState().setAccentColor(dbSettings.accentColor);
+            useThemeStore.getState().setMode(dbSettings.theme);
+            if (dbSettings.language === 'es' || dbSettings.language === 'en') {
+              useI18nStore.getState().setLocale(dbSettings.language);
+            }
+            useSettingsStore.getState().setPrimaryCurrency(dbSettings.primaryCurrency);
+            useSettingsStore.getState().setLocale(dbSettings.locale);
+            useSettingsStore.getState().setBiometricLock(dbSettings.biometricLock);
           }
-          useSettingsStore.getState().setPrimaryCurrency(dbSettings.primaryCurrency);
-          useSettingsStore.getState().setLocale(dbSettings.locale);
-          useSettingsStore.getState().setBiometricLock(dbSettings.biometricLock);
-        }
 
-        isHydrated.current = true;
-        execRecurringRules();
-      });
+          isHydrated.current = true;
+          execRecurringRules();
+        })
+        .catch(() => {
+          settingsRepo.upsert({});
+          isHydrated.current = true;
+        });
     }
   }, [migrationResult.success]);
 
@@ -49,9 +54,11 @@ function AppContent() {
       settingsRepo.upsert({ theme: state.mode, accentColor: state.accentColor });
     });
     const unsub2 = useI18nStore.subscribe((state) => {
+      if (!isHydrated.current) return;
       settingsRepo.upsert({ language: state.locale });
     });
     const unsub3 = useSettingsStore.subscribe((state) => {
+      if (!isHydrated.current) return;
       settingsRepo.upsert({
         primaryCurrency: state.primaryCurrency,
         locale: state.locale,
